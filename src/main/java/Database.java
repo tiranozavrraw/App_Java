@@ -16,7 +16,6 @@ public class Database {
             connection.commit();
             connection.close();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
     }
@@ -34,7 +33,6 @@ public class Database {
             return id;
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
         return null;
@@ -53,7 +51,6 @@ public class Database {
             return id;
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
         return null;
@@ -72,7 +69,6 @@ public class Database {
             return id;
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
         return null;
@@ -92,7 +88,6 @@ public class Database {
             return currencyAccounts;
 
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
         }
 
         return null;
