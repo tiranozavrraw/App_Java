@@ -10,7 +10,7 @@ public class Transaction {
 
     public void subtractMoney(Double amount, int accountId){
         //create transaction with negative amount
-       String query = "BEGIN;UPDATE accounts SET balance = balance -" + amount + "WHERE account_id =" + accountId + ";INSERT INTO transactions (amount, account_id) VALUES ('" +amount + "', '" +accountId + "');COMMIT;";
+       String query = "BEGIN;UPDATE accounts SET balance = balance -" + amount + "WHERE account_id =" + accountId + ";INSERT INTO transactions (amount, account_id) VALUES ('-" +amount + "', '" +accountId + "');COMMIT;";
        Database.executeQuery(query);
     }
 }
