@@ -59,13 +59,16 @@ public class Program {
             System.out.println("Enter amount to add or withdraw");
             Transaction transaction = new Transaction();
             transaction.amount = Double.valueOf(scanner.nextLine());
+            String accountIdQuery = "SELECT account_id FROM accounts where currency = '" + account.currency + "' AND user_id = '" + user.userId + "';";
+            account.accountId = Database.executeQueryWithAccountResult(accountIdQuery);
             if (transactionType == 1){
-                transaction.addMoney(transaction.amount, account.currency);
+                transaction.addMoney(transaction.amount, account.accountId);
             } else {
-                String accountIdQuery = "SELECT account_id FROM accounts where currency = '" + account.currency + "' AND user_id = '" + user.userId + "';";
-                account.accountId = Database.executeQueryWithAccountResult(accountIdQuery);
+
                 transaction.subtractMoney(transaction.amount, account.accountId);
             }
+
+            System.out.println("Completed Successfully");
 
     }
 

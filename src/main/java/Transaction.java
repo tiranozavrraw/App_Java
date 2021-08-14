@@ -2,7 +2,9 @@ public class Transaction {
     int transactionId;
     Double amount;
 
-    public void addMoney(Double amount, String currency){
+    public void addMoney(Double amount, int accountId){
+        String query = "BEGIN;UPDATE accounts SET balance = balance +" + amount + "WHERE account_id =" + accountId + ";INSERT INTO transactions (amount, account_id) VALUES ('" +amount + "', '" +accountId + "');COMMIT;";
+        Database.executeQuery(query);
 
     }
 
