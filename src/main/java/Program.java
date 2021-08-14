@@ -7,18 +7,12 @@ public class Program {
     }
 
     private void run() {
-        System.out.println("This is a registration form");
-        System.out.println("Please, enter your name");
+        UserInput input = UserInterface.provideUserInfo();
+        User user = new User(input.name, input.address);
+
+
         Scanner scanner = new Scanner(System.in);
-        String name = scanner.nextLine();
-        System.out.println("Please, enter your address. Step is optional, press enter if you want to skip it");
-        String address = scanner.nextLine();
-        User user;
-        if (!address.equals("")){
-            user = new User(name, address);
-        } else {
-            user = new User(name);
-        }
+
 //        user.registerUser(user);
 
 
