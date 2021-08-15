@@ -4,8 +4,8 @@ public class UserInterface {
     final static String registrationStart = "This is a registration form";
     final static String enterName = "Please, enter your name";
     final static String enterAddress = "Please, enter your address. Step is optional, press enter if you want to skip it";
-    final static String selectCurrency = "Please, select currency of your account. Enter 1 for USD, 2 for GBP or 3 for EUR";
-    final static String oneMoreAccount = "Would you like to create one more currency account?";
+    final static String createAccount = "Please, select currency of your account. Enter 1 for USD, 2 for GBP or 3 for EUR";
+    final static String oneMoreAccount = "If you want to create one more account enter 1 for USD, 2 for GBP or 3 for EUR or press enter to skip";
     final static String alreadyHaveAccount = "You already have account in this currency";
     final static String selectTransactionType = "Please, select type of transaction to perform. Enter 1 if you want to add money or 2 to withdraw money";
     final static String selectAccount = "Please, select account.Enter 1 for USD, 2 for GBP or 3 for EUR";
@@ -19,9 +19,69 @@ public class UserInterface {
         String name = scanner.nextLine();
         System.out.println(enterAddress);
         String address = scanner.nextLine();
-        if(address.equals("")){
+        if (address.equals("")) {
             address = null;
         }
         return new UserInput(name, address);
     }
+
+    public static String provideAccountCurrency() {
+        System.out.println(createAccount);
+        int currencyIndex = Integer.parseInt(readLine());
+        return mapCurrencyIndexWithCurrency(currencyIndex);
+    }
+
+    public static String provideOneMoreAccountCurrency() {
+        System.out.println(oneMoreAccount);
+        int currencyIndex = Integer.parseInt(readLine());
+        if (!String.valueOf(currencyIndex).equals("")) {
+            String currency = mapCurrencyIndexWithCurrency(currencyIndex);
+            return currency;
+        } else {
+            return null;
+        }
+    }
+
+    public static int provideTransactionType() {
+        System.out.println(selectTransactionType);
+        int transactionType = Integer.parseInt(readLine());
+        return transactionType;
+
+    }
+
+    public static String provideSelectedCurrencyAccount() {
+        System.out.println(selectAccount);
+        int currencyIndex = Integer.parseInt(readLine());
+        String selectedCurrency = mapCurrencyIndexWithCurrency(currencyIndex);
+        return selectedCurrency;
+    }
+
+    public static Double provideAmount() {
+        System.out.println(enterAmount);
+        Double amount = Double.valueOf(readLine());
+        return amount;
+    }
+
+    private static String readLine() {
+        Scanner scanner = new Scanner(System.in);
+        return scanner.nextLine();
+    }
+
+    private static String mapCurrencyIndexWithCurrency(int index) {
+            String currency = "";
+            switch (index){
+                case 1:
+                    currency = String.valueOf(Currency.USD);
+                    break;
+                case 2:
+                    currency = String.valueOf(Currency.GBP);
+                    break;
+                case 3:
+                    currency = String.valueOf(Currency.EUR);
+                    break;
+            }
+            return currency;
+        }
+
+
 }
