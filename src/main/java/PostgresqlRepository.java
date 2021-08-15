@@ -9,7 +9,7 @@ public class PostgresqlRepository  implements Repository{
 
     @Override
     public void createAccount(Account account) {
-        String queryAccount = "INSERT INTO accounts (balance, currency, user_id) VALUES (" + "'"+ account.balance + "'" + "," + "'" + account.currency + "'" + "," + "'"+ account.userId + "'" +");";
+        String queryAccount = "INSERT INTO accounts (balance, currency, user_id) VALUES (" + "'"+ account.getBalance() + "'" + "," + "'" + account.getCurrency() + "'" + "," + "'"+ account.getUserId() + "'" +");";
 
         Database.executeQueryWithResultAccount(queryAccount);
 

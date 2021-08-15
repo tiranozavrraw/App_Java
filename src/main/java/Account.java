@@ -1,8 +1,7 @@
 public class Account {
-    int accountId;
-    Double balance;
-    String currency;
-    int userId;
+    private Double balance;
+    private String currency;
+    private int userId;
 
     public int getUserId() {
         return userId;
@@ -10,14 +9,6 @@ public class Account {
 
     public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getAccountId() {
-        return accountId;
-    }
-
-    public void setAccountId(int accountId) {
-        this.accountId = accountId;
     }
 
     public Double getBalance() {
@@ -37,14 +28,6 @@ public class Account {
     }
 
 
-    Double calculateBalance(Double amount, int accountId) {
-        return balance;
-    }
-
-
-    Double getBalance(int accountId){
-        return balance;
-    }
 
 
 }
