@@ -2,6 +2,15 @@ public class Account {
     int accountId;
     Double balance;
     String currency;
+    int userId;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getAccountId() {
         return accountId;
@@ -37,13 +46,5 @@ public class Account {
         return balance;
     }
 
-    Boolean hasCurrencyAccount(int userId, String currency){
-        String query = "SELECT currency FROM accounts WHERE user_id =" + "'" + userId + "';";
-        var currencyAccounts = Database.executeQueryWithResultCurrency(query);
-        if(currencyAccounts.stream().anyMatch(n->n.equals(currency))){
-            return true;
-        } else {
-            return false;
-        }
-    }
+
 }

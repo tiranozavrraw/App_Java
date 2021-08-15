@@ -1,16 +1,16 @@
 import java.util.Scanner;
 
 public class UserInterface {
-    final static String registrationStart = "This is a registration form";
-    final static String enterName = "Please, enter your name";
-    final static String enterAddress = "Please, enter your address. Step is optional, press enter if you want to skip it";
-    final static String createAccount = "Please, select currency of your account. Enter 1 for USD, 2 for GBP or 3 for EUR";
-    final static String oneMoreAccount = "If you want to create one more account enter 1 for USD, 2 for GBP or 3 for EUR or press enter to skip";
-    final static String alreadyHaveAccount = "You already have account in this currency";
-    final static String selectTransactionType = "Please, select type of transaction to perform. Enter 1 if you want to add money or 2 to withdraw money";
-    final static String selectAccount = "Please, select account.Enter 1 for USD, 2 for GBP or 3 for EUR";
-    final static String enterAmount = "Enter amount to add or withdraw";
-    final static String completedSuccessfully = "Completed Successfully";
+    private final static String registrationStart = "This is a registration form";
+    private final static String enterName = "Please, enter your name";
+    private final static String enterAddress = "Please, enter your address. Step is optional, press enter if you want to skip it";
+    private final static String createAccount = "Please, select currency of your account. Enter 1 for USD, 2 for GBP or 3 for EUR";
+    private final static String oneMoreAccount = "If you want to create one more account enter 1 for USD, 2 for GBP or 3 for EUR or press enter to skip";
+    private final static String alreadyHaveAccount = "You already have account in this currency";
+    private final static String selectTransactionType = "Please, select type of transaction to perform. Enter 1 if you want to add money or 2 to withdraw money";
+    private final static String selectAccount = "Please, select account.Enter 1 for USD, 2 for GBP or 3 for EUR";
+    private final static String enterAmount = "Enter amount to add or withdraw";
+    private final static String completedSuccessfully = "Completed Successfully";
 
     public static UserInput provideUserInfo() {
         System.out.println(registrationStart);
@@ -33,9 +33,9 @@ public class UserInterface {
 
     public static String provideOneMoreAccountCurrency() {
         System.out.println(oneMoreAccount);
-        int currencyIndex = Integer.parseInt(readLine());
-        if (!String.valueOf(currencyIndex).equals("")) {
-            String currency = mapCurrencyIndexWithCurrency(currencyIndex);
+        String currencyIndex = readLine();
+        if (!currencyIndex.equals("")) {
+            String currency = mapCurrencyIndexWithCurrency(Integer.parseInt(currencyIndex));
             return currency;
         } else {
             return null;
@@ -60,6 +60,14 @@ public class UserInterface {
         System.out.println(enterAmount);
         Double amount = Double.valueOf(readLine());
         return amount;
+    }
+
+    public static void provideAlreadyHaveAccountMessage() {
+        System.out.println(alreadyHaveAccount);
+    }
+
+    public static void provideCompletedSuccessfullyMessage() {
+        System.out.println(completedSuccessfully);
     }
 
     private static String readLine() {
