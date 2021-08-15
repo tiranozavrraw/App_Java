@@ -1,32 +1,37 @@
 public class PostgresqlRepository  implements Repository{
     @Override
     public int createUserAndGetID(User user) {
-        String query = "INSERT INTO users (name, address) VALUES (" + "'"+ user.name + "'" + "," + "'" + user.address + "'" + ") RETURNING user_id;";
+        String query = "INSERT INTO users (name, address) VALUES (?, ?) RETURNING user_id;";
 
-        int userId = Database.executeQueryWithResult(query);
+        int userId = Database.executeCreateUserAndGetIdQuery(query, user);
         return userId;
     }
 
     @Override
     public void createAccount(Account account) {
-        String queryAccount = "INSERT INTO accounts (balance, currency, user_id) VALUES (" + "'"+ account.getBalance() + "'" + "," + "'" + account.getCurrency() + "'" + "," + "'"+ account.getUserId() + "'" +");";
+        String queryAccount = "INSERT INTO accounts (balance, currency, user_id) VALUES (?, ?, ?);";
 
-        Database.executeQueryWithResultAccount(queryAccount);
+        Database.executeCreateAccountQuery(queryAccount, account);
 
     }
 
     @Override
+//    public void applyTransaction(Transaction transaction) {
+//        String query = "BEGIN;UPDATE accounts SET balance = balance +" + transaction.amount + "WHERE account_id =" + transaction.accountId +
+//                ";INSERT INTO transactions (amount, account_id) VALUES ('" + transaction.amount + "', '" +transaction.accountId + "');COMMIT;";
+//        Database.executeQuery(query);
+//
+//    }
     public void applyTransaction(Transaction transaction) {
-        String query = "BEGIN;UPDATE accounts SET balance = balance +" + transaction.amount + "WHERE account_id =" + transaction.accountId +
-                ";INSERT INTO transactions (amount, account_id) VALUES ('" + transaction.amount + "', '" +transaction.accountId + "');COMMIT;";
-        Database.executeQuery(query);
+        String query = "BEGIN;UPDATE accounts SET balance = balance + ? WHERE account_id = ? ;INSERT INTO transactions (amount, account_id) VALUES (?, ?);COMMIT;";
+        Database.executeQuery(query, transaction);
 
     }
 
     @Override
     public Boolean hasCurrencyAccount(int userId, String currency) {
-        String query = "SELECT currency FROM accounts WHERE user_id =" + "'" + userId + "';";
-        var currencyAccounts = Database.executeQueryWithResultCurrency(query);
+        String query = "SELECT currency FROM accounts WHERE user_id = ?;";
+        var currencyAccounts = Database.executeSelectCurrencyAccountsOfUserQuery(query, userId);
         if(currencyAccounts.stream().anyMatch(n->n.equals(currency))){
             return true;
         } else {
@@ -36,8 +41,8 @@ public class PostgresqlRepository  implements Repository{
 
     @Override
     public int getAccountId(int userId, String currency) {
-        String accountIdQuery = "SELECT account_id FROM accounts where currency = '" + currency + "' AND user_id = '" + userId + "';";
-        int accountId = Database.executeQueryWithAccountResult(accountIdQuery);
+        String accountIdQuery = "SELECT account_id FROM accounts where currency = ? AND user_id = ? ;";
+        int accountId = Database.executeSelectAccountAndReturnIdQuery(accountIdQuery, userId, currency);
         return accountId;
     }
 }

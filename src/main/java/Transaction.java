@@ -1,5 +1,14 @@
 public class Transaction {
     Double amount;
+
+    public Double getAmount() {
+        return amount;
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
     int accountId;
 
     public void setAmount(Double amount) {

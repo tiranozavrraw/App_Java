@@ -8,11 +8,15 @@ public class Database {
     static final String PASS = "*";
 
 
-    public static void executeQuery(String query) {
+    public static void executeQuery(String query, Transaction transaction) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDouble(1,transaction.getAmount());
+            preparedStatement.setInt(2,transaction.getAccountId());
+            preparedStatement.setDouble(3,transaction.getAmount());
+            preparedStatement.setInt(4,transaction.getAccountId());
+            ResultSet set = preparedStatement.executeQuery();
             connection.commit();
             connection.close();
         } catch (SQLException throwables) {
@@ -20,29 +24,32 @@ public class Database {
 
     }
 
-    public static Integer executeQueryWithResult(String query) {
+    public static Integer executeCreateUserAndGetIdQuery(String query, User user) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, user.getName());
+            preparedStatement.setString(2, user.getAddress());
+            ResultSet set = preparedStatement.executeQuery();
             int id = 0;
             while (set.next()) {
                 id = Integer.parseInt(set.getString("user_id"));
             }
             connection.close();
             return id;
-
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
-
         return null;
     }
 
-    public static Integer executeQueryWithAccountResult(String query) {
+    public static Integer executeSelectAccountAndReturnIdQuery(String query, int userId, String currency) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setString(1, currency);
+            prepareStatement.setInt(2, userId);
+            ResultSet set = prepareStatement.executeQuery();
             int id = 0;
             while (set.next()) {
                 id = Integer.parseInt(set.getString("account_id"));
@@ -56,29 +63,25 @@ public class Database {
         return null;
     }
 
-    public static Integer executeQueryWithResultAccount(String query) {
+    public static void executeCreateAccountQuery(String query, Account account) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
-            int id = 0;
-            while (set.next()) {
-                id = Integer.parseInt(set.getString("account_id"));
-            }
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setDouble(1, account.getBalance());
+            prepareStatement.setString(2, account.getCurrency());
+            prepareStatement.setInt(3, account.getUserId());
+            ResultSet set = prepareStatement.executeQuery();
             connection.close();
-            return id;
-
         } catch (SQLException throwables) {
         }
-
-        return null;
     }
 
-    public static List<String> executeQueryWithResultCurrency(String query) {
+    public static List<String> executeSelectCurrencyAccountsOfUserQuery(String query, int userId) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
-            Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery(query);
+            PreparedStatement prepareStatement = connection.prepareStatement(query);
+            prepareStatement.setInt(1, userId);
+            ResultSet set = prepareStatement.executeQuery();
             List<String> currencyAccounts = new ArrayList<>();
             while (set.next()) {
                 String currency = set.getString("currency");
@@ -92,6 +95,5 @@ public class Database {
 
         return null;
     }
-
 
 }
