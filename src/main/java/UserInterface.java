@@ -11,6 +11,9 @@ public class UserInterface {
     private final static String selectAccount = "Please, select account.Enter 1 for USD, 2 for GBP or 3 for EUR";
     private final static String enterAmount = "Enter amount to add or withdraw";
     private final static String completedSuccessfully = "Completed Successfully";
+    private final static String createTransaction = "Would you like to create transaction? Enter 1 if YES or 2 if NO";
+    private final static String unacceptedTransactionAmount = "Please, enter positive amount that is bigger than 0 and less than 100.000.000";
+    private final static String unacceptedBalance = "Balance can not be negative or be bigger then 2.000.000.000";
 
     public static UserInput provideUserInfo() {
         System.out.println(registrationStart);
@@ -62,8 +65,26 @@ public class UserInterface {
         return amount;
     }
 
+    public static Boolean provideCreateTransaction() {
+        System.out.println(createTransaction);
+        int oneMoreTransaction = Integer.parseInt(readLine());
+        if (oneMoreTransaction == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static void provideAlreadyHaveAccountMessage() {
         System.out.println(alreadyHaveAccount);
+    }
+
+    public static void provideUnacceptedTransactionAmountMessage() {
+        System.out.println(unacceptedTransactionAmount);
+    }
+
+    public static void unacceptedBalance() {
+        System.out.println(unacceptedBalance);
     }
 
     public static void provideCompletedSuccessfullyMessage() {

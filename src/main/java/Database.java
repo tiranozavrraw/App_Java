@@ -96,4 +96,22 @@ public class Database {
         return null;
     }
 
+    public static Double executeSelectAccountBalanceQuery(String balanceQuery, Transaction transaction) {
+        try {
+            Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
+            PreparedStatement prepareStatement = connection.prepareStatement(balanceQuery);
+            prepareStatement.setInt(1, transaction.getAccountId());
+            ResultSet set = prepareStatement.executeQuery();
+            Double balance = 0.0;
+            while (set.next()) {
+                balance = Double.valueOf(set.getString("balance"));
+            }
+            connection.close();
+            return balance;
+
+        } catch (SQLException throwables) {
+        }
+
+        return null;
+    }
 }

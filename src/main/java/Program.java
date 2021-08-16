@@ -34,19 +34,51 @@ public class Program {
             currency = UserInterface.provideOneMoreAccountCurrency();
         }
 
-        int transactionType = UserInterface.provideTransactionType();
-        currency = UserInterface.provideSelectedCurrencyAccount();
-        Double amount = UserInterface.provideAmount();
-        Transaction transaction = new Transaction();
-        if (transactionType == 2) {
-            amount = -Math.abs(amount);
-        }
-        transaction.setAmount(amount);
-        int transactionAccountID = repository.getAccountId(user.getUserId(), currency);
-        transaction.setAccountId(transactionAccountID);
-        repository.applyTransaction(transaction);
+        while (UserInterface.provideCreateTransaction()) {
 
-        UserInterface.provideCompletedSuccessfullyMessage();
+            int transactionType = UserInterface.provideTransactionType();
+            currency = UserInterface.provideSelectedCurrencyAccount();
+            Double amount = UserInterface.provideAmount();
+            if (checkAmount(amount)) {
+                Transaction transaction = new Transaction();
+                if (transactionType == 2) {
+                    amount = -Math.abs(amount);
+                }
+                transaction.setAmount(amount);
+                int transactionAccountID = repository.getAccountId(user.getUserId(), currency);
+                transaction.setAccountId(transactionAccountID);
+                Double balance = repository.getBalance(transaction);
+                if(checkBalance(transaction.getAmount(), balance, transactionType)){
+                    repository.applyTransaction(transaction);
+                    UserInterface.provideCompletedSuccessfullyMessage();
+                } else {
+                    UserInterface.unacceptedBalance();
+                }
+
+            } else {
+                UserInterface.provideUnacceptedTransactionAmountMessage();
+            }
+
+        }
 
     }
+
+    private static Boolean checkAmount(Double amount) {
+        if (amount > 0 && amount <= 100000000) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static Boolean checkBalance(Double amount, Double balance, int transactionType) {
+        Double result = balance + amount;
+            if (result <= 2000000000 && result >= 0) {
+                return true;
+            }
+            return false;
+
+        }
+
+
 }

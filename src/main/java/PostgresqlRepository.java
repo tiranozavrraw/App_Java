@@ -16,14 +16,9 @@ public class PostgresqlRepository  implements Repository{
     }
 
     @Override
-//    public void applyTransaction(Transaction transaction) {
-//        String query = "BEGIN;UPDATE accounts SET balance = balance +" + transaction.amount + "WHERE account_id =" + transaction.accountId +
-//                ";INSERT INTO transactions (amount, account_id) VALUES ('" + transaction.amount + "', '" +transaction.accountId + "');COMMIT;";
-//        Database.executeQuery(query);
-//
-//    }
     public void applyTransaction(Transaction transaction) {
-        String query = "BEGIN;UPDATE accounts SET balance = balance + ? WHERE account_id = ? ;INSERT INTO transactions (amount, account_id) VALUES (?, ?);COMMIT;";
+        String query = "BEGIN;UPDATE accounts SET balance = balance + ? WHERE account_id = ? " +
+                ";INSERT INTO transactions (amount, account_id) VALUES (?, ?);COMMIT;";
         Database.executeQuery(query, transaction);
 
     }
@@ -44,5 +39,12 @@ public class PostgresqlRepository  implements Repository{
         String accountIdQuery = "SELECT account_id FROM accounts where currency = ? AND user_id = ? ;";
         int accountId = Database.executeSelectAccountAndReturnIdQuery(accountIdQuery, userId, currency);
         return accountId;
+    }
+
+    @Override
+    public Double getBalance(Transaction transaction) {
+        String balanceQuery = "SELECT balance FROM accounts where account_id = ? ;";
+        Double balance = Database.executeSelectAccountBalanceQuery(balanceQuery, transaction);
+        return balance;
     }
 }
