@@ -1,5 +1,5 @@
 public class Transaction {
-    Double amount;
+    private Double amount;
 
     public Double getAmount() {
         return amount;
@@ -9,7 +9,7 @@ public class Transaction {
         return accountId;
     }
 
-    int accountId;
+    private int accountId;
 
     public void setAmount(Double amount) {
         this.amount = amount;

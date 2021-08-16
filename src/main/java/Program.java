@@ -5,7 +5,7 @@ public class Program {
     }
 
     private void run() {
-        Repository repository = new PostgresqlRepository();
+        Repository repository = new PostgresqlRepository(new Database());
 
         UserInput input = UserInterface.provideUserInfo();
         User user = new User(input.name, input.address);
@@ -48,7 +48,7 @@ public class Program {
                 int transactionAccountID = repository.getAccountId(user.getUserId(), currency);
                 transaction.setAccountId(transactionAccountID);
                 Double balance = repository.getBalance(transaction);
-                if(checkBalance(transaction.getAmount(), balance, transactionType)){
+                if(checkBalance(transaction.getAmount(), balance)){
                     repository.applyTransaction(transaction);
                     UserInterface.provideCompletedSuccessfullyMessage();
                 } else {
@@ -71,7 +71,7 @@ public class Program {
         }
     }
 
-    private static Boolean checkBalance(Double amount, Double balance, int transactionType) {
+    private static Boolean checkBalance(Double amount, Double balance) {
         Double result = balance + amount;
             if (result <= 2000000000 && result >= 0) {
                 return true;

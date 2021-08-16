@@ -3,12 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Database {
-    static final String URL_DB = "jdbc:postgresql://127.0.0.1:5432/JavaHW";
-    static final String USER = "postgres";
-    static final String PASS = "*";
+    final String URL_DB = "jdbc:postgresql://127.0.0.1:5432/JavaHW";
+    final String USER = "postgres";
+    final String PASS = "*";
 
 
-    public static void executeQuery(String query, Transaction transaction) {
+    public void executeQuery(String query, Transaction transaction) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -24,7 +24,7 @@ public class Database {
 
     }
 
-    public static Integer executeCreateUserAndGetIdQuery(String query, User user) {
+    public Integer executeCreateUserAndGetIdQuery(String query, User user) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -43,7 +43,7 @@ public class Database {
         return null;
     }
 
-    public static Integer executeSelectAccountAndReturnIdQuery(String query, int userId, String currency) {
+    public Integer executeSelectAccountAndReturnIdQuery(String query, int userId, String currency) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -63,7 +63,7 @@ public class Database {
         return null;
     }
 
-    public static void executeCreateAccountQuery(String query, Account account) {
+    public void executeCreateAccountQuery(String query, Account account) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -76,7 +76,7 @@ public class Database {
         }
     }
 
-    public static List<String> executeSelectCurrencyAccountsOfUserQuery(String query, int userId) {
+    public List<String> executeSelectCurrencyAccountsOfUserQuery(String query, int userId) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -96,7 +96,7 @@ public class Database {
         return null;
     }
 
-    public static Double executeSelectAccountBalanceQuery(String balanceQuery, Transaction transaction) {
+    public Double executeSelectAccountBalanceQuery(String balanceQuery, Transaction transaction) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(balanceQuery);

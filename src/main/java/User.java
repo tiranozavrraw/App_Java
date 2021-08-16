@@ -1,7 +1,7 @@
 public class User {
-    int userId;
-    String name;
-    String address;
+    private int userId;
+    private String name;
+    private String address;
 
     public int getUserId() {
         return userId;
@@ -40,9 +40,5 @@ public class User {
 
     }
 
-    public void registerUser (User user) {
-
-
-    }
 }
 
