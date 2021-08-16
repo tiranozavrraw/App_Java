@@ -5,7 +5,7 @@ public class Program {
     }
 
     private void run() {
-        Repository repository = new PostgresqlRepository(new Database());
+        Repository repository = new PostgresqlRepository(Database.connect());
 
         UserInput input = UserInterface.provideUserInfo();
         User user = new User(input.name, input.address);

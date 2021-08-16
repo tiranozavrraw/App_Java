@@ -7,6 +7,11 @@ public class Database {
     final String USER = "postgres";
     final String PASS = "*";
 
+    private Database(){}
+
+    public static Database connect() {
+        return new Database();
+    }
 
     public void executeQuery(String query, Transaction transaction) {
         try {
@@ -16,10 +21,10 @@ public class Database {
             preparedStatement.setInt(2,transaction.getAccountId());
             preparedStatement.setDouble(3,transaction.getAmount());
             preparedStatement.setInt(4,transaction.getAccountId());
-            ResultSet set = preparedStatement.executeQuery();
-            connection.commit();
+            preparedStatement.execute();
             connection.close();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
     }
@@ -35,6 +40,7 @@ public class Database {
             while (set.next()) {
                 id = Integer.parseInt(set.getString("user_id"));
             }
+            set.close();
             connection.close();
             return id;
         } catch (SQLException throwables) {
@@ -54,10 +60,12 @@ public class Database {
             while (set.next()) {
                 id = Integer.parseInt(set.getString("account_id"));
             }
+            set.close();
             connection.close();
             return id;
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         return null;
@@ -70,9 +78,10 @@ public class Database {
             prepareStatement.setDouble(1, account.getBalance());
             prepareStatement.setString(2, account.getCurrency());
             prepareStatement.setInt(3, account.getUserId());
-            ResultSet set = prepareStatement.executeQuery();
+            prepareStatement.execute();
             connection.close();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
     }
 
@@ -87,10 +96,12 @@ public class Database {
                 String currency = set.getString("currency");
                 currencyAccounts.add(currency);
             }
+            set.close();
             connection.close();
             return currencyAccounts;
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         return null;
@@ -106,10 +117,12 @@ public class Database {
             while (set.next()) {
                 balance = Double.valueOf(set.getString("balance"));
             }
+            set.close();
             connection.close();
             return balance;
 
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
 
         return null;
