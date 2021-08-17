@@ -13,7 +13,7 @@ public class Database {
         return new Database();
     }
 
-    public void executeQuery(String query, Transaction transaction) {
+    public void executeTransaction(String query, Transaction transaction) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -29,7 +29,7 @@ public class Database {
 
     }
 
-    public Integer executeCreateUserAndGetIdQuery(String query, User user) {
+    public Integer executeCreateUserAndGetId(String query, User user) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -49,7 +49,7 @@ public class Database {
         return null;
     }
 
-    public Integer executeSelectAccountAndReturnIdQuery(String query, int userId, String currency) {
+    public Integer executeSelectAccountAndGetId(String query, int userId, String currency) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -71,7 +71,7 @@ public class Database {
         return null;
     }
 
-    public void executeCreateAccountQuery(String query, Account account) {
+    public void executeCreateAccount(String query, Account account) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -85,7 +85,7 @@ public class Database {
         }
     }
 
-    public List<String> executeSelectCurrencyAccountsOfUserQuery(String query, int userId) {
+    public List<String> executeSelectCurrencyAccountsOfUser(String query, int userId) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(query);
@@ -107,7 +107,7 @@ public class Database {
         return null;
     }
 
-    public Double executeSelectAccountBalanceQuery(String balanceQuery, Transaction transaction) {
+    public Double executeSelectAccountBalance(String balanceQuery, Transaction transaction) {
         try {
             Connection connection = DriverManager.getConnection(URL_DB, USER, PASS);
             PreparedStatement prepareStatement = connection.prepareStatement(balanceQuery);

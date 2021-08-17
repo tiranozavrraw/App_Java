@@ -8,7 +8,7 @@ public class PostgresqlRepository  implements Repository{
     public int createUserAndGetID(User user) {
         String query = "INSERT INTO users (name, address) VALUES (?, ?) RETURNING user_id;";
 
-        int userId = database.executeCreateUserAndGetIdQuery(query, user);
+        int userId = database.executeCreateUserAndGetId(query, user);
         return userId;
     }
 
@@ -16,7 +16,7 @@ public class PostgresqlRepository  implements Repository{
     public void createAccount(Account account) {
         String queryAccount = "INSERT INTO accounts (balance, currency, user_id) VALUES (?, ?, ?);";
 
-        database.executeCreateAccountQuery(queryAccount, account);
+        database.executeCreateAccount(queryAccount, account);
 
     }
 
@@ -24,14 +24,14 @@ public class PostgresqlRepository  implements Repository{
     public void applyTransaction(Transaction transaction) {
         String query = "BEGIN;UPDATE accounts SET balance = balance + ? WHERE account_id = ? " +
                 ";INSERT INTO transactions (amount, account_id) VALUES (?, ?);COMMIT;";
-        database.executeQuery(query, transaction);
+        database.executeTransaction(query, transaction);
 
     }
 
     @Override
     public Boolean hasCurrencyAccount(int userId, String currency) {
         String query = "SELECT currency FROM accounts WHERE user_id = ?;";
-        var currencyAccounts = database.executeSelectCurrencyAccountsOfUserQuery(query, userId);
+        var currencyAccounts = database.executeSelectCurrencyAccountsOfUser(query, userId);
         if(currencyAccounts.stream().anyMatch(n->n.equals(currency))){
             return true;
         } else {
@@ -42,14 +42,14 @@ public class PostgresqlRepository  implements Repository{
     @Override
     public int getAccountId(int userId, String currency) {
         String accountIdQuery = "SELECT account_id FROM accounts where currency = ? AND user_id = ? ;";
-        int accountId = database.executeSelectAccountAndReturnIdQuery(accountIdQuery, userId, currency);
+        int accountId = database.executeSelectAccountAndGetId(accountIdQuery, userId, currency);
         return accountId;
     }
 
     @Override
     public Double getBalance(Transaction transaction) {
         String balanceQuery = "SELECT balance FROM accounts where account_id = ? ;";
-        Double balance = database.executeSelectAccountBalanceQuery(balanceQuery, transaction);
+        Double balance = database.executeSelectAccountBalance(balanceQuery, transaction);
         return balance;
     }
 }
